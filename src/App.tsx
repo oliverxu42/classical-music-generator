@@ -1,25 +1,45 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import MusicCard from './components/Card';
+
+
 
 function App() {
+
+  const getMusicData = async () => {
+
+    const res = await fetch(`http://localhost:8000/generate`)
+    .then(res => res.json())
+    .then(data => console.log(data));
+
+    // const res = await fetch(`https://api.openopus.org/dyn/work/random`, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   }
+    // )
+    // .then(res => res.json())
+    // .then(data => console.log(data));
+  }
+
   return (
+    <>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Classical Music Generator</h1>
+      <div className='center'>
+        <button 
+          className='generate'
+          onClick={()=>getMusicData()}>
+          Generate
+        </button>
+      </div>
+      <div>
+        <MusicCard></MusicCard>
+        <MusicCard></MusicCard>
+      </div>
     </div>
+    </>
   );
 }
 
