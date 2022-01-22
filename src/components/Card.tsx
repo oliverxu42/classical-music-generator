@@ -2,7 +2,7 @@ import React from 'react';
 import Card from '@mui/material/Card'
 import { Button, CardActions, CardContent, Typography } from '@mui/material';
 
-const MusicCard = () => {
+const workCard = () => {
   return (
     <div className='card'>
       <div className='container'>
@@ -13,5 +13,5 @@ const MusicCard = () => {
   );
 }
 
-export default MusicCard;
+export default workCard;
 

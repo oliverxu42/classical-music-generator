@@ -11,7 +11,6 @@ app.use((req, res, next) => {
 app.get('/generate', async (req, res) => {
   const response = await axios.post('https://api.openopus.org/dyn/work/random');
   const data = response.data;
-  console.log(data);
   res.status(200).json(data);
 });
 

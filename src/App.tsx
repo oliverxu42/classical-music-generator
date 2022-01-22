@@ -1,26 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import MusicCard from './components/Card';
+import WorksDisplay from './components/WorksDisplay';
+import { WorksList, Work } from './interfaces/Works';
 
+const getMusicData = async () => {
 
+  const res = await fetch(`http://localhost:8000/generate`)
+  const body = await res.json();
+  const data = body['works'];
+  const works: WorksList = [];
+
+  for (let i = 0; i < data.length; i++) {
+    const work: Work = {
+      id: data[i]['id'],
+      title: data[i]['title'],
+      genre: data[i]['genre'],
+      composer: data[i]['composer']
+    }
+    works.push(work); 
+  }
+  return works;
+}
 
 function App() {
 
-  const getMusicData = async () => {
+  const [Works, setWorks] = useState<WorksList>([]);
 
-    const res = await fetch(`http://localhost:8000/generate`)
-    .then(res => res.json())
-    .then(data => console.log(data));
-
-    // const res = await fetch(`https://api.openopus.org/dyn/work/random`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   }
-    // )
-    // .then(res => res.json())
-    // .then(data => console.log(data));
+  const handleGenerate = async () => {
+    setWorks(await getMusicData());
   }
 
   return (
@@ -30,13 +37,12 @@ function App() {
       <div className='center'>
         <button 
           className='generate'
-          onClick={()=>getMusicData()}>
+          onClick={()=>handleGenerate()}>
           Generate
         </button>
       </div>
       <div>
-        <MusicCard></MusicCard>
-        <MusicCard></MusicCard>
+        <WorksDisplay Works={Works}/>
       </div>
     </div>
     </>
