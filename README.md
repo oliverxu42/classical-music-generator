@@ -14,9 +14,9 @@ This project is mainly written in Typescript and React. Music data is supplied t
 
 ## Things for the Future
 
-[] Nicer looking frontend
-[] Have a way to filter pieces based on composer, genre, period etc.
-[] Link to recording of the work
-[] Deploy!
+- [ ] Nicer looking frontend
+- [ ] Have a way to filter pieces based on composer, genre, period etc.
+- [ ] Link to recording of the work
+- [ ] Deploy!
 
 
