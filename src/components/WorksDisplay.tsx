@@ -1,6 +1,6 @@
 import React from 'react';
 import { Work, WorksList } from '../interfaces/Works';
-import WorkCard from '../components/Card'
+import WorkCard from '../components/Card';
 
 interface WorksDisplayProps {
   Works: WorksList
@@ -11,9 +11,10 @@ const WorksDisplay: React.FC<WorksDisplayProps> = ({ Works }) => {
   return (
   <div>
     {worksToDisplay.map(work => (
-       <WorkCard key={work.id} work={work}></WorkCard>
+      <div key={work.id}>
+       <WorkCard work={work}></WorkCard>
+      </div>
     ))}
-   
   </div>
   );
 }
