@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import './App.css';
 import WorksDisplay from './components/WorksDisplay';
-import { WorksList, Work } from './interfaces/Works';
+import { WorksList, Work} from './interfaces/Works';
 
 const getMusicData = async () => {
+
+  const works: WorksList = [];
 
   const res = await fetch(`http://localhost:8000/generate`)
   const body = await res.json();
   const data = body['works'];
-  const works: WorksList = [];
 
   for (let i = 0; i < data.length; i++) {
     const work: Work = {
@@ -19,8 +20,10 @@ const getMusicData = async () => {
     }
     works.push(work); 
   }
+  
   return works;
 }
+
 
 function App() {
 
