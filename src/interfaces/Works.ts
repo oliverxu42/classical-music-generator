@@ -12,4 +12,5 @@ export interface Composer {
   name: string
   complete_name: string
   epoch: string
+  portrait: string
 }

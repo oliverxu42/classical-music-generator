@@ -11,7 +11,7 @@ const WorkCard: React.FC<WorkCardProps>  = ({ work }) => {
     <>
     <FadeIn>
       <div className='card'>
-        <img src="image.png" alt='composer' className='composer-avatar'/>
+        <img src={work.composer.portrait} alt='composer' className='composer-avatar'/>
         <div className='card-text'>
           <h4><b>{work.title}</b></h4>
           <p>{work.composer.complete_name}</p>
