@@ -3,6 +3,8 @@ import './App.css';
 import WorksDisplay from './components/WorksDisplay';
 import { WorksList, Work, Composer} from './interfaces/Works';
 
+const NUM_WORKS = 10;
+
 const getMusicData = async () => {
 
   const works: WorksList = [];
@@ -11,7 +13,7 @@ const getMusicData = async () => {
   const body = await res.json();
   const data = body['works'];
 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < NUM_WORKS; i++) {
     
     const composer_id = data[i]['composer']['id'];
     const getComposer = await fetch(`https://api.openopus.org/composer/list/ids/${composer_id}.json`).then(res => res.json());
@@ -31,36 +33,55 @@ const getMusicData = async () => {
       genre: data[i]['genre'],
       composer: composer
     }
-
     works.push(work); 
   }
-
-  console.log(works);
 
   return works;
 }
 
+const scrollToTop = () =>{
+  window.scrollTo({
+    top: 0, 
+    behavior: 'smooth'
+  });
+};
+
 function App() {
 
+  const [moreVisible, setMoreVisible] = useState(false);
   const [Works, setWorks] = useState<WorksList>([]);
 
   const handleGenerate = async () => {
     setWorks(await getMusicData());
+    setMoreVisible(true);
+  }
+
+  const backAndGenerate = () => {
+    scrollToTop();
+    handleGenerate();
   }
 
   return (
     <>
     <div className="App">
       <h1>Classical Music Generator</h1>
-      <div className='center'>
+      <div className="center">
         <button 
-          className='generate'
+          className="generate"
           onClick={()=>handleGenerate()}>
           Generate
         </button>
       </div>
       <div>
         <WorksDisplay Works={Works}/>
+      </div>
+      <div className="load-more">
+        {moreVisible && 
+        <button
+          className="generate"
+          onClick={()=>backAndGenerate()}>
+          Load More
+        </button>}
       </div>
     </div>
     </>
