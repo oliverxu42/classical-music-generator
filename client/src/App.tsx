@@ -1,64 +1,35 @@
-import React, { useState } from "react";
-import "./styles/App.css";
-import WorksDisplay from "./components/WorksDisplay";
-import Navbar from "./components/Navbar";
-import Search from "./components/Search";
-import { WorksList, Work, Composer } from "./interfaces/Works";
-
-const NUM_WORKS = 10;
-
-const getMusicData = async () => {
-  const works: WorksList = [];
-
-  const res = await fetch(`/api/get-works`);
-  const body = await res.json();
-  const data = body["works"];
-
-  const composerIds: String[] = [];
-
-  for (let i = 0; i < NUM_WORKS; i++) {
-    const composerId = data[i]["composer"]["id"];
-    composerIds.push(composerId);
-  }
-
-  const getComposer = await fetch(
-    `https://api.openopus.org/composer/list/ids/${composerIds}.json`
-  ).then((res) => res.json());
-
-  const composerData = getComposer["composers"];
-
-  for (let i = 0; i < NUM_WORKS; i++) {
-    const composer: Composer = {
-      id: composerData[i]["id"],
-      name: composerData[i]["name"],
-      complete_name: composerData[i]["complete_name"],
-      epoch: composerData[i]["epoch"],
-      portrait: composerData[i]["portrait"],
-    };
-    const work: Work = {
-      id: data[i]["id"],
-      title: data[i]["title"],
-      genre: data[i]["genre"],
-      composer: composer,
-    };
-    works.push(work);
-  }
-  return works;
-};
+import React, { useState } from 'react';
+import './styles/App.css';
+import WorksDisplay from './components/WorksDisplay';
+import Search from './components/Search';
+import { WorksList } from './interfaces/Works';
+import { SearchOptions } from './interfaces/SearchOptions';
+import { getWorks } from './getWorks';
 
 const scrollToTop = () => {
   window.scrollTo({
     top: 0,
-    behavior: "smooth",
+    behavior: 'smooth',
   });
 };
 
 function App() {
   const [moreVisible, setMoreVisible] = useState(false);
   const [Works, setWorks] = useState<WorksList>([]);
+  const [isPopularWork, setIsPopularWork] = useState(false);
+
+  const [options, setOptions] = useState<SearchOptions>({
+    popularWork: false,
+    recommendedWork: false,
+    popularComposer: false,
+    recommendedComposer: false,
+    genre: 'All',
+    epoch: 'All',
+    composer: '',
+  });
 
   const handleGenerate = async () => {
-    setWorks(await getMusicData());
+    setWorks(await getWorks(isPopularWork));
     setMoreVisible(true);
   };
 
@@ -70,8 +41,11 @@ function App() {
   return (
     <>
       <div className="App">
-        <Navbar />
-        <Search />
+        <h1>Classical Music Generator</h1>
+        <Search
+          isPopularWork={isPopularWork}
+          setIsPopularWork={setIsPopularWork}
+        />
         <div className="center">
           <button className="generate" onClick={() => handleGenerate()}>
             Generate

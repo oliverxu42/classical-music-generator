@@ -1,8 +1,29 @@
-import React from "react";
-import "../styles/Search.css";
+import React, { useState } from 'react';
+import { SearchOptions } from '../interfaces/SearchOptions';
+import '../styles/Search.css';
 
-const Search = () => {
-  return <div className="background"> TEST </div>;
+interface SearchProps {
+  isPopularWork: boolean;
+  setIsPopularWork: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Search: React.FC<SearchProps> = ({ isPopularWork, setIsPopularWork }) => {
+  return (
+    <>
+      <div className="container">
+        <div>
+          <label>
+            <input
+              type="checkbox"
+              checked={isPopularWork}
+              onChange={() => setIsPopularWork(!isPopularWork)}
+            />
+            Popular Works
+          </label>
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default Search;

@@ -8,9 +8,14 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/api/get-works', async (req, res) => {
-  const response = await axios.post('https://api.openopus.org/dyn/work/random');
+app.get('/get-works', async (req, res) => {
+  const isPopularWork = req.query.popWork;
+  console.log(isPopularWork);
+  const response = await axios.get('https://api.openopus.org/dyn/work/random', {
+    params: { popularwork: isPopularWork },
+  });
   const data = response.data;
+  console.log(data);
   res.status(200).json(data);
 });
 
